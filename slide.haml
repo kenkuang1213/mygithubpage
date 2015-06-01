@@ -1,0 +1,53 @@
+    !!!5  
+    %html  
+      %head  
+        %meta{:charset => 'UTF-8'}  
+        %title   
+        %link{:rel=>"stylesheet", :href=>"http://lab.hakim.se/reveal-js/css/reveal.min.css"}  
+        %link{:rel=>"stylesheet", :href=>"http://lab.hakim.se/reveal-js/css/theme/default.css"}  
+      %body  
+        .reveal  
+          .slides  
+            %section  
+              %h1 iT 邦幫忙鐵人賽第六屆  
+              %h3 快寫HTML靜態網頁  
+              %p 用左右鍵移動、Escape鍵瀏覽全部  
+            %section  
+              %section  
+                %h1 垂直方式呈現1  
+                %p 用上下鍵移動  
+              %section  
+                %h1 垂直方式呈現2  
+              %section  
+                %h1 垂直方式呈現3  
+            -2.times.each do |i|  
+              %section  
+                %h1.lorem_w3  
+                %p.lorem_p1  
+        %script{:src=>"/js/jquery.min.js",:type=>"text/javascript"}  
+        %script{:src=>"lib/js/head.min.js",:type=>"text/javascript"}  
+        %script{:src=>"js/reveal.min.js",:type=>"text/javascript"}  
+        %script{:src=>"/js/lorem.js",:type=>"text/javascript"}  
+        :javascript  
+          (function($)  
+            {$('body').ipsum();  
+          }(jQuery));  
+          Reveal.initialize({  
+            controls: true,  
+            progress: true,  
+            history: true,  
+            center: true,  
+      
+            theme: Reveal.getQueryHash().theme, // available themes are in /css/theme  
+            transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none  
+      
+            // Optional libraries used to extend on reveal.js  
+            dependencies: [  
+              { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },  
+              { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },  
+              { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },  
+              { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },  
+              { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },  
+              { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }  
+            ]  
+          });  
