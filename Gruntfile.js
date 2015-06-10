@@ -86,12 +86,27 @@ module.exports = function(grunt) {
 			},
 			files: [ 'Gruntfile.js', 'js/reveal.js' ]
 		},
+		
+		jade:{
+			compile: {
+				options: {
+					client:false,
+					pretty: true
+				},
+				files:{
+					"index.html":"slide.jade"
+				}	
+			}
+
+
+		},
 
 		connect: {
 			server: {
 				options: {
 					port: port,
 					base: '.',
+					hostname: '0.0.0.0',
 					livereload: true,
 					open: true
 				}
@@ -126,7 +141,11 @@ module.exports = function(grunt) {
 				tasks: 'css-core'
 			},
 			html: {
-				files: [ 'index.html']
+				files: [ '*.html']
+			},
+			source:{
+				files: ['slide.jade'],
+				tasks:'jade'
 			}
 		}
 
@@ -142,6 +161,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-zip' );
+	grunt.loadNpmTasks( 'grunt-contrib-jade');	
 
 	// Default task
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
@@ -162,7 +182,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
 
 	// Serve presentation locally
-	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'jade','connect', 'watch' ] );
 
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );

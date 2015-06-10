@@ -1,0 +1,186 @@
+doctype html 
+html  
+  head  
+    meta(charset = 'UTF-8')
+    title A Synergistic framework Base on Halide
+    link(rel="stylesheet", href="css/reveal.css")  
+    link(rel="stylesheet", href="css/theme/night.css",id="theme")
+    link(rel="stylesheet", href="lib/css/zenburn.css")
+
+
+  body  
+    .reveal
+      .slides
+        section
+          section  
+            h1 A Synergistic framework 
+            h1 base on Halide
+            p 
+              small present by Ken Kuang  
+        section
+          h1 Outline
+          each title,index in ["Introduction","Background Knowledge","System Architecture","Implement Method","Experiment Result"]
+            h3 
+            a(href="#/"+(index+2))=title          
+        section
+          section
+            h1 Introduction
+          section
+            h4 It’s several research target on synergistically computing 
+            h4 by using Heterogeneous computing language like OpenCL.
+          section       
+            h3 But OpenCL is difficult to
+            ul
+              li(class="fragment highlight-red") Program
+              li(class="fragment highlight-red") Tune performance  
+          section
+            h3 It makes Programming heterogeneous computing systems become
+            ul
+              li(class="fragment highlight-red") Complex
+              li(class="fragment highlight-red") Time-consuming
+          section
+            p To solve this problem,<strong>I</strong> decide to use <strong>Halide</strong> a new language to reduce the difficulty of programing.
+        section
+          section
+            h1 Background Knowledge
+          section
+            h2 Halide decouple algorithm from schedule
+            ul
+              li Algorithm : <strong>What</strong> is computed
+              li Schedule  : <strong>Where</strong> and <strong>When</strong> its' computed
+          section
+            p Easy for programmers to build pipelines                
+            ul
+              li simplifies algorithm code                           
+              li improves modularity
+            p Easy for programmers to specify & explore optimizations
+            ul
+              li fusion, tiling, parallelism, vectorization          
+              li can’t break the algorithm
+            p Easy for the compiler to generate fast code
+          section 
+            h2 Native C++ Code
+            pre.
+              <code class="cpp" data-trim contenteditable style="font-size: 18px;">
+              Image&lt;uint16_t&gt; blur(Image&lt;uint16_t&gt; in) {
+                Image&lt;uint16_t&gt; tmp(in.width()-8, in.height());
+                Image&lt;uint16_t&gt; out(in.width()-8, in.height()-2);                    
+                for (int y = 0; y &lt; tmp.height(); y++)
+                    for (int x = 0; x &lt; tmp.width(); x++)
+                        tmp(x, y) = (in(x, y) + in(x+1, y) + in(x+2, y))/3;
+                for (int y = 0; y &lt; out.height(); y++)
+                    for (int x = 0; x &lt; out.width(); x++)
+                        out(x, y) = (tmp(x, y) + tmp(x, y+1) + tmp(x, y+2))/3;
+                return out;
+              }       
+              </code>    
+          section 
+            h2 OpenMP Code
+            pre.
+              <code class="cpp" data-trim contenteditable style="font-size: 18px;">
+              Image&ltuint16_t&gt blur_fast(Image&ltuint16_t&gt in) {
+                  Image&ltuint16_t&gt out(in.width()-8, in.height()-2);
+                  begin_timing;
+                  __m128i one_third = _mm_set1_epi16(21846);
+              #pragma omp parallel for
+                  for (int yTile = 0; yTile &lt out.height(); yTile += 32) {
+                      __m128i a, b, c, sum, avg;
+                      __m128i tmp[(128/8) * (32 + 2)];
+                      for (int xTile = 0; xTile &lt out.width(); xTile += 128) {
+                          __m128i *tmpPtr = tmp;
+                          for (int y = 0; y &lt 32+2; y++) {
+                              const uint16_t *inPtr = &(in(xTile, yTile+y));
+                              for (int x = 0; x &lt 128; x += 8) {
+                                  a = _mm_load_si128((__m128i*)(inPtr));
+                                  b = _mm_loadu_si128((__m128i*)(inPtr+1));
+                                  c = _mm_loadu_si128((__m128i*)(inPtr+2));
+                                  sum = _mm_add_epi16(_mm_add_epi16(a, b), c);
+                                  avg = _mm_mulhi_epi16(sum, one_third);
+                                  _mm_store_si128(tmpPtr++, avg);
+                                  inPtr+=8;
+                              }
+                          }
+                          tmpPtr = tmp;
+                          for (int y = 0; y &lt 32; y++) {
+                              __m128i *outPtr = (__m128i *)(&(out(xTile, yTile+y)));
+                              for (int x = 0; x &lt 128; x += 8) {
+                                  a = _mm_load_si128(tmpPtr+(2*128)/8);
+                                  b = _mm_load_si128(tmpPtr+128/8);
+                                  c = _mm_load_si128(tmpPtr++);
+                                  sum = _mm_add_epi16(_mm_add_epi16(a, b), c);
+                                  avg = _mm_mulhi_epi16(sum, one_third);
+                                  _mm_store_si128(outPtr++, avg);
+                              }
+                          }
+                      }
+                  }
+                  end_timing;
+                  return out;
+                }    
+                </code>
+          section 
+            h2 Halide Code
+            pre.
+              <code class="cpp" data-trim contenteditable style="font-size: 18px;">
+              ImageParam input(UInt(16), 2);
+              Func blur_x("blur_x"), blur_y("blur_y");
+              Var x("x"), y("y"), xi("xi"), yi("yi");
+
+              // The algorithm
+              blur_x(x, y) = (input(x, y) + input(x+1, y) + input(x+2, y))/3;
+              blur_y(x, y) = (blur_x(x, y) + blur_x(x, y+1) + blur_x(x, y+2))/3;
+
+              // How to schedule it
+              blur_y.split(y, y, yi, 8).parallel(y).vectorize(x, 8);
+              blur_x.store_at(blur_y, y).compute_at(blur_y, yi).vectorize(x, 8);
+
+              blur_y.compile_to_file("halide_blur", input);              
+              </code>
+          section
+            h2 Halide Pipelines
+            img(src="photos/HalidePipeline.png",height="500px")
+          section
+            h2 Halide Consumer/Producer Relastions
+            img(src="photos/HalideConsumerRelations.png",height="500px")
+          section 
+            h2 Halide CodeGen Flow
+            img(src="/photos/HalideCodegenFlow.png" , height="500px")
+        section
+          section
+            h1 System Architecture
+          section
+            h3 OpenCL with Multi Device 
+            img(src="photos/MultiDeviceOpenCL.png",height="500px")
+          section
+            h3 Architecture of other FluidiCL 
+            img(src="photos/FluidiCLArch.png",height="500px")
+          section
+            h3 Architecture of My Work
+            img(src="photos/myArch.png",height="500px")
+        section 
+          section
+            h1 Implement Method
+        section
+          section
+            h1 Experiment Result
+
+
+  script(src="lib/js/head.min.js")  
+  script(src="js/reveal.js")  
+
+  script.
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'slide', 
+      dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+      ]
+    });
