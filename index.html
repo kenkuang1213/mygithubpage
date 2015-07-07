@@ -22,8 +22,9 @@
           <h3> </h3><a href="#/2">Introduction</a>
           <h3> </h3><a href="#/3">Background Knowledge</a>
           <h3> </h3><a href="#/4">System Architecture</a>
-          <h3> </h3><a href="#/5">Implement Method</a>
+          <h3> </h3><a href="#/5">Implement</a>
           <h3> </h3><a href="#/6">Experiment Result</a>
+          <h3> </h3><a href="#/7">Conclusion</a>
         </section>
         <section>
           <section>
@@ -171,7 +172,7 @@ blur_y.compile_to_file("halide_blur", input);
             <h3>OpenCL with Multi Device </h3><img src="photos/MultiDeviceOpenCL.jpg" height="500px"/>
           </section>
           <section>
-            <h3>Architecture of other FluidiCL </h3><img src="photos/FluidiCLArch.jpg" height="500px"/>
+            <h3>Architecture of other FluidiCL </h3><img src="photos/FluidiCLArch.png" height="500px"/>
           </section>
           <section>
             <h3>Architecture of My Work</h3><img src="photos/myArch.jpg" height="500px"/>
@@ -192,6 +193,18 @@ blur_y.compile_to_file("halide_blur", input);
           </section>
           <section>
             <h3>Dynamic Dispatch</h3><img src="photos/DynamicDispatch.png" height="500px"/>
+          </section>
+          <section> 
+            <h3>Usage</h3>
+            <pre><code>
+local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Haldie function
+//Static Dispatch
+StaticDispatch static(input,output);
+static.realize(local_laplacian_cpu,local_laplacian_gpu,workload,levels,alpha/(levels-1),beta);
+//Dynamic Dispatch
+DynamicDispatch dynamic(input,output);
+dynamic.realize(local_laplacian_cpu,local_laplacian_gpu,levels,alpha/(levels-1),beta);
+</code></pre>
           </section>
         </section>
         <section>
@@ -224,49 +237,131 @@ blur_y.compile_to_file("halide_blur", input);
             </table>
           </section>
           <section>
+            <h2>Bilateral</h2>
+            <pre><code>
+for(int j= kernelStartY; j<= kernelEndY; j++)
+{       
+  for(int i= kernelStartX; i<= kernelEndX; i++)
+  {                       
+  unsigned int idx = max(0, min(j, height-1))*width + max(0, min(i,width-1));
+  float curPix[3];
+  curPix[0] = _in[idx].x;
+  curPix[1] = _in[idx].y;
+  curPix[2] = _in[idx].z;
+  float currWeight;
+  // define bilateral filter kernel weights
+  float imageDist = sqrt( (float)((i-x)*(i-x) + (j-y)*(j-y)) );
+
+  float colorDist = sqrt( (float)( (curPix[0] - ctrPix[0])*(curPix[0] - ctrPix[0]) +
+                   (curPix[1] - ctrPix[1])*(curPix[1] - ctrPix[1]) +
+                   (curPix[2] - ctrPix[2])*(curPix[2] - ctrPix[2]) ) );
+
+  currWeight = 1.0f/(exp((imageDist/id)*(imageDist/id)*0.5)*exp((colorDist/cd)*(colorDist/cd)*0.5));
+  sumWeight += currWeight;
+
+  _sum[0] += currWeight*curPix[0]; 
+  _sum[1] += currWeight*curPix[1];
+  _sum[2] += currWeight*curPix[2];
+  }  
+}</pre></code>
+          </section>
+          <section>
+            <h2>Local Laplacian</h2><img src="photos/StateFlow_locallaplacian.png"/>
+          </section>
+          <section>
             <h2>The influence of Workload </h2>
           </section>
           <section>
-            <h3>Bilateral-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral @ Nexus 7).png"/>
+            <h3>Bilateral-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload between CPU and GPU at PC 1</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral @ PC1).png"/>
+            <h3>Bilateral-Workload between CPU and GPU at PC 1</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@PC1).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload between CPU and GPU at PC 2</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral @ PC2).png"/>
+            <h3>Bilateral-Workload between CPU and GPU at PC 2</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian @ Nexus 7).png"/>
+            <h3>Local Laplacian-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload between CPU and GPU at PC 1</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian @ PC1).png"/>
+            <h3>Local Laplacian-Workload between CPU and GPU at PC 1</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC1).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload between CPU and GPU at PC 2</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian @ PC2).jpg"/>
+            <h3>Local Laplacian-Workload between CPU and GPU at PC 2</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC2).png"/>
           </section>
           <section>
             <h2>The workload and static dispatch</h2>
           </section>
           <section>
-            <h3>Bilateral-Workload and static dispatch at Nexus 7</h3><img src="photos/Result-workload and static dispatch(Bilateral @ Nexus 7).png"/>
+            <h3>Bilateral-Workload and static dispatch at Nexus 7</h3><img src="photos/Result-workload and static dispatch(Bilateral@Nexus7).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload and static dispatch at PC 1 </h3><img src="photos/Result-workload and static dispatch(Bilateral @ PC1).png"/>
+            <h3>Bilateral-Workload and static dispatch at PC 1 </h3><img src="photos/Result-workload and static dispatch(Bilateral@PC1).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload and static dispatch at PC 2 </h3><img src="photos/Result-workload and static dispatch(Bilateral @ PC2).png"/>
+            <h3>Bilateral-Workload and static dispatch at PC 2 </h3><img src="photos/Result-workload and static dispatch(Bilateral@PC2).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload and static dispatch at Nexus 7</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian @ Nexus 7).png"/>
+            <h3>Local Laplacian-Workload and static dispatch at Nexus 7</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian@Nexus7).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload and static dispatch at PC 1</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian @ PC1).png"/>
+            <h3>Local Laplacian-Workload and static dispatch at PC 1</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian@PC1).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload and static dispatch at PC 2</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian @ PC2).png"/>
+            <h3>Local Laplacian-Workload and static dispatch at PC 2</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png"/>
+          </section>
+          <section>
+            <h2>OpenCL Profile information</h2>
+          </section>
+          <section>
+            <h3>Execution of OpenCL API (Bilateral at PC 1)</h3><img src="photos/ExecutionTimeOfAPI(Bilateal @ PC1).png"/>
+          </section>
+          <section>
+            <h3>Execution of OpenCL API (Bilateral at PC 2)</h3><img src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png"/>
           </section>
           <section> 
-            <h3> </h3>
+            <h2>CUDA V.S OpenCL</h2>
+          </section>
+          <section>
+            <h3>Comparison between CUDA and OpenCL - Bilateral</h3><img src="photos/Comparison between CUDA and OpenCL(Bilateral).png"/>
+          </section>
+          <section>
+            <h3>Comparison between CUDA and OpenCL - Local Laplacian</h3><img src="photos/Comparison between CUDA and OpenCL(Local Laplacian).png"/>
+          </section>
+        </section>
+        <section>
+          <section> 
+            <h1>Conclusion</h1>
+          </section>
+          <section>
+            <h2>Static Dispatch</h2>
+          </section>
+          <section>
+            <h2>When processing Bilateral Static Dispatch improves</h2>
+            <ul>
+              <li class="fragment highlight-red"><strong>21%</strong> at Nexus 7</li>
+              <li class="fragment highlight-red"><strong>66%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp</li>
+              <li class="fragment highlight-red"><strong>16%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp </li>
+            </ul>
+          </section>
+          <section>
+            <h2>When processing Local Laplacian Static Dispatch improves</h2>
+            <ul>
+              <li class="fragment highlight-red"><strong>24%</strong> at Nexus 7</li>
+              <li class="fragment highlight-red"><strong>23%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp</li>
+              <li class="fragment highlight-red"><strong>11%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Dynamic Dispatch</h2>
+          </section>
+          <section>
+            <h2>When processing Bilateral Dynamic Dispatch improves</h2>
+            <ul>
+              <li class="fragment highlight-red"><strong>8%</strong>&nbsp&nbsp at Nexus 7</li>
+              <li class="fragment highlight-red"><strong>57%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp</li>
+              <li class="fragment highlight-red"><strong>6%</strong>&nbsp&nbsp at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp </li>
+            </ul>
           </section>
         </section>
       </div>

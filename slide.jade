@@ -20,7 +20,7 @@ html
                 a(href="https://tw.linkedin.com/pub/ken-kuang/9a/890/678") Ken Kuang  
         section
           h1 Outline
-          each title,index in ["Introduction","Background Knowledge","System Architecture","Implement Method","Experiment Result"]
+          each title,index in ["Introduction","Background Knowledge","System Architecture","Implement","Experiment Result","Conclusion"]
             h3 
             a(href="#/"+(index+2))=title          
         section
@@ -154,7 +154,7 @@ html
             img(src="photos/MultiDeviceOpenCL.jpg",height="500px")
           section
             h3 Architecture of other FluidiCL 
-            img(src="photos/FluidiCLArch.jpg",height="500px")
+            img(src="photos/FluidiCLArch.png",height="500px")
           section
             h3 Architecture of My Work
             img(src="photos/myArch.jpg",height="500px")
@@ -173,6 +173,18 @@ html
           section
             h3 Dynamic Dispatch
             img(src="photos/DynamicDispatch.png",height="500px")
+          section 
+            h3 Usage
+            pre.
+              <code>
+              local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Haldie function
+              //Static Dispatch
+              StaticDispatch static(input,output);
+              static.realize(local_laplacian_cpu,local_laplacian_gpu,workload,levels,alpha/(levels-1),beta);
+              //Dynamic Dispatch
+              DynamicDispatch dynamic(input,output);
+              dynamic.realize(local_laplacian_cpu,local_laplacian_gpu,levels,alpha/(levels-1),beta);
+              </code>
         section
           section
             h1 Experiment Result
@@ -196,47 +208,122 @@ html
                 td Intel(R) Core(TM) i5-3470 CPU @ 3.20GHz
                 td NVIDIA GTX 750
           section
+            h2 Bilateral
+            pre.
+              <code>
+              for(int j= kernelStartY; j<= kernelEndY; j++)
+              {       
+                for(int i= kernelStartX; i<= kernelEndX; i++)
+                {                       
+                unsigned int idx = max(0, min(j, height-1))*width + max(0, min(i,width-1));
+                float curPix[3];
+                curPix[0] = _in[idx].x;
+                curPix[1] = _in[idx].y;
+                curPix[2] = _in[idx].z;
+                float currWeight;
+                // define bilateral filter kernel weights
+                float imageDist = sqrt( (float)((i-x)*(i-x) + (j-y)*(j-y)) );
+
+                float colorDist = sqrt( (float)( (curPix[0] - ctrPix[0])*(curPix[0] - ctrPix[0]) +
+                                 (curPix[1] - ctrPix[1])*(curPix[1] - ctrPix[1]) +
+                                 (curPix[2] - ctrPix[2])*(curPix[2] - ctrPix[2]) ) );
+
+                currWeight = 1.0f/(exp((imageDist/id)*(imageDist/id)*0.5)*exp((colorDist/cd)*(colorDist/cd)*0.5));
+                sumWeight += currWeight;
+
+                _sum[0] += currWeight*curPix[0]; 
+                _sum[1] += currWeight*curPix[1];
+                _sum[2] += currWeight*curPix[2];
+                }  
+              }
+            </code>
+          section
+            h2 Local Laplacian
+            img(src="photos/StateFlow_locallaplacian.png")
+          section
             h2 The influence of Workload 
           section
             h3 Bilateral-Workload between CPU and GPU at Nexus 7
-            img(src="photos/Result-Workload between CPU and GPU(Bilateral @ Nexus 7).png")
+            img(src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png")
           section
             h3 Bilateral-Workload between CPU and GPU at PC 1
-            img(src="photos/Result-Workload between CPU and GPU(Bilateral @ PC1).png")
+            img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC1).png")
           section
             h3 Bilateral-Workload between CPU and GPU at PC 2
-            img(src="photos/Result-Workload between CPU and GPU(Bilateral @ PC2).png")
+            img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png")
           section
             h3 Local Laplacian-Workload between CPU and GPU at Nexus 7
-            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian @ Nexus 7).png")
+            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png")
           section
             h3 Local Laplacian-Workload between CPU and GPU at PC 1
-            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian @ PC1).png")
+            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC1).png")
           section
             h3 Local Laplacian-Workload between CPU and GPU at PC 2
-            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian @ PC2).jpg")
+            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC2).png")
           section
             h2 The workload and static dispatch
           section
             h3 Bilateral-Workload and static dispatch at Nexus 7
-            img(src="photos/Result-workload and static dispatch(Bilateral @ Nexus 7).png")
+            img(src="photos/Result-workload and static dispatch(Bilateral@Nexus7).png")
           section
             h3 Bilateral-Workload and static dispatch at PC 1 
-            img(src="photos/Result-workload and static dispatch(Bilateral @ PC1).png")
+            img(src="photos/Result-workload and static dispatch(Bilateral@PC1).png")
           section
             h3 Bilateral-Workload and static dispatch at PC 2 
-            img(src="photos/Result-workload and static dispatch(Bilateral @ PC2).png")
+            img(src="photos/Result-workload and static dispatch(Bilateral@PC2).png")
           section
             h3 Local Laplacian-Workload and static dispatch at Nexus 7
-            img(src="photos/Result-workload and static dispatch(LocalLaplacian @ Nexus 7).png")
+            img(src="photos/Result-workload and static dispatch(LocalLaplacian@Nexus7).png")
           section
             h3 Local Laplacian-Workload and static dispatch at PC 1
-            img(src="photos/Result-workload and static dispatch(LocalLaplacian @ PC1).png")
+            img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC1).png")
           section
             h3 Local Laplacian-Workload and static dispatch at PC 2
-            img(src="photos/Result-workload and static dispatch(LocalLaplacian @ PC2).png")
+            img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png")
+          section
+            h2 OpenCL Profile information
+          section
+            h3 Execution of OpenCL API (Bilateral at PC 1)
+            img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC1).png")
+          section
+            h3 Execution of OpenCL API (Bilateral at PC 2)
+            img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png")
           section 
-            h3 
+            h2 CUDA V.S OpenCL
+          section
+            h3 Comparison between CUDA and OpenCL - Bilateral
+            img(src="photos/Comparison between CUDA and OpenCL(Bilateral).png")
+          section
+            h3 Comparison between CUDA and OpenCL - Local Laplacian
+            img(src="photos/Comparison between CUDA and OpenCL(Local Laplacian).png")
+        section
+          section 
+            h1 Conclusion
+          section
+            h2 Static Dispatch
+          section
+            h2 When processing Bilateral Static Dispatch improves
+            ul
+              li(class="fragment highlight-red") <strong>21%</strong> at Nexus 7
+              li(class="fragment highlight-red") <strong>66%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>16%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
+          section
+            h2 When processing Local Laplacian Static Dispatch improves
+            ul
+              li(class="fragment highlight-red") <strong>24%</strong> at Nexus 7
+              li(class="fragment highlight-red") <strong>23%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>11%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
+          section
+            h2 Dynamic Dispatch
+          section
+            h2 When processing Bilateral Dynamic Dispatch improves
+            ul
+              li(class="fragment highlight-red") <strong>8%</strong>&nbsp&nbsp at Nexus 7
+              li(class="fragment highlight-red") <strong>57%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>6%</strong>&nbsp&nbsp at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
+
+
+
 
 
   script(src="lib/js/head.min.js")  
