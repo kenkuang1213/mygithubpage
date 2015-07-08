@@ -78,7 +78,7 @@ html
           section 
             h2 OpenMP Code
             pre.
-              <code class="cpp" data-trim contenteditable style="font-size: 18px;">
+              <code class="cpp" data-trim contenteditable style="font-size: 20px;">
               Image&ltuint16_t&gt blur_fast(Image&ltuint16_t&gt in) {
                   Image&ltuint16_t&gt out(in.width()-8, in.height()-2);
                   begin_timing;
@@ -122,7 +122,7 @@ html
           section 
             h2 Halide Code
             pre.
-              <code class="cpp" data-trim contenteditable style="font-size: 18px;">
+              <code class="cpp" data-trim contenteditable style="font-size: 20px;">
               ImageParam input(UInt(16), 2);
               Func blur_x("blur_x"), blur_y("blur_y");
               Var x("x"), y("y"), xi("xi"), yi("yi");
@@ -176,7 +176,7 @@ html
           section 
             h3 Usage
             pre.
-              <code>
+              <code class="cpp" data-trim contenteditable style="font-size: 20px;">
               local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Haldie function
               //Static Dispatch
               StaticDispatch static(input,output);
