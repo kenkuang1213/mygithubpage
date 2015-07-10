@@ -6,6 +6,12 @@ html
     link(rel="stylesheet", href="css/reveal.css")  
     link(rel="stylesheet", href="css/theme/night.css",id="theme")
     link(rel="stylesheet", href="lib/css/zenburn.css")
+  script.
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
 
 
   body  
@@ -20,7 +26,7 @@ html
                 a(href="https://tw.linkedin.com/pub/ken-kuang/9a/890/678") Ken Kuang  
         section
           h1 Outline
-          each title,index in ["Introduction","Background Knowledge","System Architecture","Implement","Experiment Result","Conclusion"]
+          each title,index in ["Introduction","Introduction-Halide","Introduction-OpenCL","System Architecture","Implement","Experiment Result","Conclusion"]
             h3 
             a(href="#/"+(index+2))=title          
         section
@@ -43,12 +49,12 @@ html
             p To solve this problem,<strong>I</strong> decide to use <strong>Halide</strong> a new language to reduce the difficulty of programing.
         section
           section
-            h1 Background Knowledge
+            h1 Introduction-Halide
           section
             h2 Halide decouple algorithm from schedule
             ul
-              li Algorithm : <strong>What</strong> is computed
-              li Schedule  : <strong>Where</strong> and <strong>When</strong> its' computed
+              li Algorithm : <span class="fragment highlight-red"><strong>What</strong></span> is computed
+              li Schedule  : <span class="fragment highlight-red"><strong>Where</strong></span> and <span class="fragment highlight-red"><strong>When</strong></span> its' computed
           section
             p Easy for programmers to build pipelines                
             ul
@@ -145,7 +151,26 @@ html
             img(src="photos/HalideConsumerRelations.png",height="500px")
           section 
             h2 Halide CodeGen Flow
-            img(src="/photos/HalideCodegenFlow.png" , height="500px")
+            img(src="photos/HalideCodegenFlow.png" , height="500px")
+        section
+          section
+            h1 Introduction-OpenCL
+            h2 Base on Halide CodeGen
+          section
+            p OpenCL is an open standard of computing for heterogeneous devices developed by Khronos Group.
+            img(src="photos/InspirationForOpenCL.png",height="300px")
+          section
+            h3 Executing OpenCL Programs
+            img(src="photos/ExecutingOpenCLPrograms.png")
+          section
+            h3 OpenCL in Halide CodeGen
+            ol
+              li <strong>init_kernels</strong> : clGetContextInfo, clGetDeviceInfo, clCreateProgramWithSource and clBuildProgram
+              li <strong>device_malloc </strong> : clCreateBuffer
+              li <strong>copy_to_device</strong>  : clEnqueueWriteBufferRect
+              li <strong>run </strong> : clCreateKernel, clSetKernelArg, clEnqueueNDRangeKernel, clReleaseKernel and clFinish  
+              li <strong>copy_to_to_host</strong>  : clEnqueueReadBufferRect
+              li <strong>device_free </strong> : clReleaseMemObject.
         section
           section
             h1 System Architecture
@@ -177,7 +202,7 @@ html
             h3 Usage
             pre.
               <code class="cpp" data-trim contenteditable style="font-size: 20px;">
-              local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Haldie function
+              local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Halide function
               //Static Dispatch
               StaticDispatch static(input,output);
               static.realize(local_laplacian_cpu,local_laplacian_gpu,workload,levels,alpha/(levels-1),beta);
@@ -241,6 +266,11 @@ html
             h2 Local Laplacian
             img(src="photos/StateFlow_locallaplacian.png")
           section
+            h2 Difference between Bilateral and Local Laplacian
+            ul
+              li Bilateral will refer to local area
+              li Local Laplacian will refer to global area (Whole input)
+          section
             h2 The influence of Workload 
           section
             h3 Bilateral-Workload between CPU and GPU at Nexus 7
@@ -280,6 +310,9 @@ html
           section
             h3 Local Laplacian-Workload and static dispatch at PC 2
             img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png")
+          section 
+            h3 It turns out that
+            p(class="fragment") Static Dispatch will be slower than predict execution
           section
             h2 OpenCL Profile information
           section
@@ -300,8 +333,13 @@ html
           section 
             h1 Conclusion
           section
-            h2 Static Dispatch
+            h3 We create A synergistic framework base on Halide can
+            ul 
+              li support PC and Mobile
+              li support CUDA and OpenCL
           section
+            h2 Static Dispatch
+          section 
             h2 When processing Bilateral Static Dispatch improves
             ul
               li(class="fragment highlight-red") <strong>21%</strong> at Nexus 7
