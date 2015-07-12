@@ -26,12 +26,18 @@ html
                 a(href="https://tw.linkedin.com/pub/ken-kuang/9a/890/678") Ken Kuang  
         section
           h1 Outline
-          each title,index in ["Introduction","Introduction-Halide","Introduction-OpenCL","System Architecture","Implement","Experiment Result","Conclusion"]
+          each title,index in ["Motivation","Background","Implementation","Experiment Result","Conclusion"]
             h3 
             a(href="#/"+(index+2))=title          
         section
           section
-            h1 Introduction
+            h1 Motivation
+          section
+            h3 Halide is a new language
+            h4 which is designed to make it <span class="fragment highlight-red"><strong>easier</strong></span> to write <span class="fragment highlight-blue"><strong>high-performance</strong></span> image processing code.
+          section
+            h3 It can support CPU and GPU backend.
+            h4 So we want to make a <span class="fragment highlight-blue"><strong>synergistic framework</strong></span> as Halide extension 
           section
             h4 It’s several research target on synergistically computing 
             h4 by using Heterogeneous computing language like OpenCL.
@@ -45,11 +51,13 @@ html
             ul
               li(class="fragment highlight-red") Complex
               li(class="fragment highlight-red") Time-consuming
-          section
-            p To solve this problem,<strong>I</strong> decide to use <strong>Halide</strong> a new language to reduce the difficulty of programing.
         section
           section
-            h1 Introduction-Halide
+            h1 Background 
+            ul 
+              li Halide
+              li OpenCL
+              li Related work - FluidiCL
           section
             h2 Halide decouple algorithm from schedule
             ul
@@ -68,7 +76,7 @@ html
           section 
             h2 Native C++ Code
             pre.
-              <code class="cpp" data-trim contenteditable style="font-size: 18px;">
+              <code class="cpp" data-trim contenteditable style="font-size: 14px;">
               Image&lt;uint16_t&gt; blur(Image&lt;uint16_t&gt; in) {
                 Image&lt;uint16_t&gt; tmp(in.width()-8, in.height());
                 Image&lt;uint16_t&gt; out(in.width()-8, in.height()-2);                    
@@ -84,7 +92,7 @@ html
           section 
             h2 OpenMP Code
             pre.
-              <code class="cpp" data-trim contenteditable style="font-size: 20px;">
+              <code class="cpp" data-trim contenteditable style="font-size: 14px;">
               Image&ltuint16_t&gt blur_fast(Image&ltuint16_t&gt in) {
                   Image&ltuint16_t&gt out(in.width()-8, in.height()-2);
                   begin_timing;
@@ -128,7 +136,7 @@ html
           section 
             h2 Halide Code
             pre.
-              <code class="cpp" data-trim contenteditable style="font-size: 20px;">
+              <code class="cpp" data-trim contenteditable style="font-size: 14px;">
               ImageParam input(UInt(16), 2);
               Func blur_x("blur_x"), blur_y("blur_y");
               Var x("x"), y("y"), xi("xi"), yi("yi");
@@ -151,10 +159,9 @@ html
             img(src="photos/HalideConsumerRelations.png",height="500px")
           section 
             h2 Halide CodeGen Flow
-            img(src="photos/HalideCodegenFlow.png" , height="500px")
-        section
+            img(src="photos/HalideCodeGenFlow.png" , height="500px" , style="Background:#FFFFFF")
           section
-            h1 Introduction-OpenCL
+            h1 Background - OpenCL
             h2 Base on Halide CodeGen
           section
             p OpenCL is an open standard of computing for heterogeneous devices developed by Khronos Group.
@@ -171,24 +178,28 @@ html
               li <strong>run </strong> : clCreateKernel, clSetKernelArg, clEnqueueNDRangeKernel, clReleaseKernel and clFinish  
               li <strong>copy_to_to_host</strong>  : clEnqueueReadBufferRect
               li <strong>device_free </strong> : clReleaseMemObject.
-        section
-          section
-            h1 System Architecture
           section
             h3 OpenCL with Multi Device 
             img(src="photos/MultiDeviceOpenCL.jpg",height="500px")
           section
-            h3 Architecture of other FluidiCL 
-            img(src="photos/FluidiCLArch.png",height="500px")
+            h3 Related work - FluidiCL  
           section
-            h3 Architecture of My Work
-            img(src="photos/myArch.jpg",height="500px")
+            h3 Architecture of FluidiCL 
+            img(src="photos/FluidiCLArch.png",height="500px")
+          section 
+            h3 kernel Execution
+            img(src="photos/FluidiCLKernelExecution.png")
         section 
           section
-            h1 Implement Method
+            h1 Implementation
+          section
+            h3 System Achitecture
+            img(src="photos/Framework-System Architecture.png",height="500px",style="Background:#FFFFFF")
+          section
+            img(src="photos/OpenCL\ Comparison.png")
           section
             h3 Memory Management 
-            img(src="photos/Implement-old.png",height="500px")
+            img(src="photos/Implement-old.png",height="500px",style="background: #D8D8D8")
           section
             h3 Memory Management con'd
             img(src="photos/Implement-new.png",height="250px")
@@ -201,11 +212,19 @@ html
           section 
             h3 Usage
             pre.
-              <code class="cpp" data-trim contenteditable style="font-size: 20px;">
-              local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Halide function
+              <code class="cpp" data-trim contenteditable style="font-size: 14px;">
+              //Halide Function
+              local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output); //Halide GPU Function
+              local_laplacian_cpu(levels,alpha/(levels-1),beta,input,output); //Halide CPU Function
+              </code>
+            pre.
+              <code class="cpp" data-trim contenteditable style="font-size: 14px;">
               //Static Dispatch
               StaticDispatch static(input,output);
               static.realize(local_laplacian_cpu,local_laplacian_gpu,workload,levels,alpha/(levels-1),beta);
+              </code>
+            pre.
+              <code class="cpp" data-trim contenteditable style="font-size: 14px;">
               //Dynamic Dispatch
               DynamicDispatch dynamic(input,output);
               dynamic.realize(local_laplacian_cpu,local_laplacian_gpu,levels,alpha/(levels-1),beta);
@@ -321,6 +340,14 @@ html
           section
             h3 Execution of OpenCL API (Bilateral at PC 2)
             img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png")
+          section
+            h2 Dynamic Dispatch
+          section
+            h3 Performance of Bilateral
+            img(src="photos/Performance of Bilateral.png")
+          section
+            h3 Performance of Local Laplacian
+            img(src="photos/Performance of Local Laplacian.png")
           section 
             h2 CUDA V.S OpenCL
           section

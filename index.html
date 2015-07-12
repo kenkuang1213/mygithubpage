@@ -28,17 +28,23 @@
         </section>
         <section>
           <h1>Outline</h1>
-          <h3> </h3><a href="#/2">Introduction</a>
-          <h3> </h3><a href="#/3">Introduction-Halide</a>
-          <h3> </h3><a href="#/4">Introduction-OpenCL</a>
-          <h3> </h3><a href="#/5">System Architecture</a>
-          <h3> </h3><a href="#/6">Implement</a>
-          <h3> </h3><a href="#/7">Experiment Result</a>
-          <h3> </h3><a href="#/8">Conclusion</a>
+          <h3> </h3><a href="#/2">Motivation</a>
+          <h3> </h3><a href="#/3">Background</a>
+          <h3> </h3><a href="#/4">Implementation</a>
+          <h3> </h3><a href="#/5">Experiment Result</a>
+          <h3> </h3><a href="#/6">Conclusion</a>
         </section>
         <section>
           <section>
-            <h1>Introduction</h1>
+            <h1>Motivation</h1>
+          </section>
+          <section>
+            <h3>Halide is a new language</h3>
+            <h4>which is designed to make it <span class="fragment highlight-red"><strong>easier</strong></span> to write <span class="fragment highlight-blue"><strong>high-performance</strong></span> image processing code.</h4>
+          </section>
+          <section>
+            <h3>It can support CPU and GPU backend.</h3>
+            <h4>So we want to make a <span class="fragment highlight-blue"><strong>synergistic framework</strong></span> as Halide extension </h4>
           </section>
           <section>
             <h4>It’s several research target on synergistically computing </h4>
@@ -58,13 +64,15 @@
               <li class="fragment highlight-red">Time-consuming</li>
             </ul>
           </section>
-          <section>
-            <p>To solve this problem,<strong>I</strong> decide to use <strong>Halide</strong> a new language to reduce the difficulty of programing.</p>
-          </section>
         </section>
         <section>
           <section>
-            <h1>Introduction-Halide</h1>
+            <h1>Background </h1>
+            <ul> 
+              <li>Halide</li>
+              <li>OpenCL</li>
+              <li>Related work - FluidiCL</li>
+            </ul>
           </section>
           <section>
             <h2>Halide decouple algorithm from schedule</h2>
@@ -88,7 +96,7 @@
           </section>
           <section> 
             <h2>Native C++ Code</h2>
-            <pre><code class="cpp" data-trim contenteditable style="font-size: 18px;">
+            <pre><code class="cpp" data-trim contenteditable style="font-size: 14px;">
 Image&lt;uint16_t&gt; blur(Image&lt;uint16_t&gt; in) {
   Image&lt;uint16_t&gt; tmp(in.width()-8, in.height());
   Image&lt;uint16_t&gt; out(in.width()-8, in.height()-2);                    
@@ -104,7 +112,7 @@ Image&lt;uint16_t&gt; blur(Image&lt;uint16_t&gt; in) {
           </section>
           <section> 
             <h2>OpenMP Code</h2>
-            <pre><code class="cpp" data-trim contenteditable style="font-size: 20px;">
+            <pre><code class="cpp" data-trim contenteditable style="font-size: 14px;">
 Image&ltuint16_t&gt blur_fast(Image&ltuint16_t&gt in) {
     Image&ltuint16_t&gt out(in.width()-8, in.height()-2);
     begin_timing;
@@ -148,7 +156,7 @@ Image&ltuint16_t&gt blur_fast(Image&ltuint16_t&gt in) {
           </section>
           <section> 
             <h2>Halide Code</h2>
-            <pre><code class="cpp" data-trim contenteditable style="font-size: 20px;">
+            <pre><code class="cpp" data-trim contenteditable style="font-size: 14px;">
 ImageParam input(UInt(16), 2);
 Func blur_x("blur_x"), blur_y("blur_y");
 Var x("x"), y("y"), xi("xi"), yi("yi");
@@ -171,12 +179,10 @@ blur_y.compile_to_file("halide_blur", input);
             <h2>Halide Consumer/Producer Relastions</h2><img src="photos/HalideConsumerRelations.png" height="500px"/>
           </section>
           <section> 
-            <h2>Halide CodeGen Flow</h2><img src="photos/HalideCodegenFlow.png" height="500px"/>
+            <h2>Halide CodeGen Flow</h2><img src="photos/HalideCodeGenFlow.png" height="500px" style="Background:#FFFFFF"/>
           </section>
-        </section>
-        <section>
           <section>
-            <h1>Introduction-OpenCL</h1>
+            <h1>Background - OpenCL</h1>
             <h2>Base on Halide CodeGen</h2>
           </section>
           <section>
@@ -196,27 +202,29 @@ blur_y.compile_to_file("halide_blur", input);
               <li><strong>device_free </strong> : clReleaseMemObject.</li>
             </ol>
           </section>
-        </section>
-        <section>
-          <section>
-            <h1>System Architecture</h1>
-          </section>
           <section>
             <h3>OpenCL with Multi Device </h3><img src="photos/MultiDeviceOpenCL.jpg" height="500px"/>
           </section>
           <section>
-            <h3>Architecture of other FluidiCL </h3><img src="photos/FluidiCLArch.png" height="500px"/>
+            <h3>Related work - FluidiCL  </h3>
           </section>
           <section>
-            <h3>Architecture of My Work</h3><img src="photos/myArch.jpg" height="500px"/>
+            <h3>Architecture of FluidiCL </h3><img src="photos/FluidiCLArch.png" height="500px"/>
+          </section>
+          <section> 
+            <h3>kernel Execution</h3><img src="photos/FluidiCLKernelExecution.png"/>
           </section>
         </section>
         <section> 
           <section>
-            <h1>Implement Method</h1>
+            <h1>Implementation</h1>
           </section>
           <section>
-            <h3>Memory Management </h3><img src="photos/Implement-old.png" height="500px"/>
+            <h3>System Achitecture</h3><img src="photos/Framework-System Architecture.png" height="500px" style="Background:#FFFFFF"/>
+          </section>
+          <section><img src="photos/OpenCL Comparison.png"/></section>
+          <section>
+            <h3>Memory Management </h3><img src="photos/Implement-old.png" height="500px" style="background: #D8D8D8"/>
           </section>
           <section>
             <h3>Memory Management con'd</h3><img src="photos/Implement-new.png" height="250px"/>
@@ -229,11 +237,17 @@ blur_y.compile_to_file("halide_blur", input);
           </section>
           <section> 
             <h3>Usage</h3>
-            <pre><code class="cpp" data-trim contenteditable style="font-size: 20px;">
-local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output);//Halide function
+            <pre><code class="cpp" data-trim contenteditable style="font-size: 14px;">
+//Halide Function
+local_laplacian_gpu(levels,alpha/(levels-1),beta,input,output); //Halide GPU Function
+local_laplacian_cpu(levels,alpha/(levels-1),beta,input,output); //Halide CPU Function
+</code></pre>
+            <pre><code class="cpp" data-trim contenteditable style="font-size: 14px;">
 //Static Dispatch
 StaticDispatch static(input,output);
 static.realize(local_laplacian_cpu,local_laplacian_gpu,workload,levels,alpha/(levels-1),beta);
+</code></pre>
+            <pre><code class="cpp" data-trim contenteditable style="font-size: 14px;">
 //Dynamic Dispatch
 DynamicDispatch dynamic(input,output);
 dynamic.realize(local_laplacian_cpu,local_laplacian_gpu,levels,alpha/(levels-1),beta);
@@ -362,6 +376,15 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
           </section>
           <section>
             <h3>Execution of OpenCL API (Bilateral at PC 2)</h3><img src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png"/>
+          </section>
+          <section>
+            <h2>Dynamic Dispatch</h2>
+          </section>
+          <section>
+            <h3>Performance of Bilateral</h3><img src="photos/Performance of Bilateral.png"/>
+          </section>
+          <section>
+            <h3>Performance of Local Laplacian</h3><img src="photos/Performance of Local Laplacian.png"/>
           </section>
           <section> 
             <h2>CUDA V.S OpenCL</h2>
