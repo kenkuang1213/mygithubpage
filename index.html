@@ -224,7 +224,7 @@ blur_y.compile_to_file("halide_blur", input);
             <h1>Implementation</h1>
           </section>
           <section>
-            <h3>System Achitecture</h3><img src="photos/Framework-System Architecture.png" height="500px" style="Background:#FFFFFF"/>
+            <h3>System Achitecture</h3><img src="photos/Framework-System Architecture.png" height="600px" style="Background:#FFFFFF"/>
           </section>
           <section><img src="photos/OpenCL Comparison.png"/></section>
           <section>
@@ -327,7 +327,11 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             </ul>
           </section>
           <section>
-            <h2>The influence of Workload </h2>
+            <h2>The influence of Workload</h2>
+          </section>
+          <section>
+            <h3>Test input</h3>
+            <h4>1536*2560</h4><img src="photos/gray.png" height="500px"/>
           </section>
           <section>
             <h3>Bilateral-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png"/>
@@ -337,6 +341,10 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
           </section>
           <section>
             <h3>Bilateral-Workload between CPU and GPU at PC 2</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png"/>
+          </section>
+          <section>
+            <h3>Test input</h3>
+            <h4>1536*2560</h4><img src="photos/rgb.png" height="500px"/>
           </section>
           <section>
             <h3>Local Laplacian-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png"/>
@@ -382,6 +390,10 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             <h3>Execution of OpenCL API (Bilateral at PC 2)</h3><img src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png"/>
           </section>
           <section>
+            <h3>It shows that</h3>
+            <h4>The CPU usage will slow OpenCL API execution time    </h4>
+          </section>
+          <section>
             <h2>Dynamic Dispatch</h2>
           </section>
           <section>
@@ -405,7 +417,7 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             <h1>Conclusion</h1>
           </section>
           <section>
-            <h3>We create A synergistic framework base on Halide can</h3>
+            <h3>We create a synergistic framework base on Halide can</h3>
             <ul> 
               <li>support PC and Mobile</li>
               <li>support CUDA and OpenCL</li>
@@ -426,7 +438,7 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             <h2>When processing Local Laplacian Static Dispatch improves</h2>
             <ul>
               <li class="fragment highlight-red"><strong>24%</strong> at Nexus 7</li>
-              <li class="fragment highlight-red"><strong>23%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp</li>
+              <li class="fragment highlight-red"><strong>3%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp</li>
               <li class="fragment highlight-red"><strong>11%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp </li>
             </ul>
           </section>

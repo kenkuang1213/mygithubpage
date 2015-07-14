@@ -197,7 +197,7 @@ html
             h1 Implementation
           section
             h3 System Achitecture
-            img(src="photos/Framework-System Architecture.png",height="500px",style="Background:#FFFFFF")
+            img(src="photos/Framework-System Architecture.png",height="600px",style="Background:#FFFFFF")
           section
             img(src="photos/OpenCL\ Comparison.png")
           section
@@ -293,7 +293,11 @@ html
               li Bilateral will refer to local area
               li Local Laplacian will refer to global area (Whole input)
           section
-            h2 The influence of Workload 
+            h2 The influence of Workload
+          section
+            h3 Test input
+            h4 1536*2560
+            img(src="photos/gray.png",height="500px")
           section
             h3 Bilateral-Workload between CPU and GPU at Nexus 7
             img(src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png")
@@ -303,6 +307,10 @@ html
           section
             h3 Bilateral-Workload between CPU and GPU at PC 2
             img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png")
+          section
+            h3 Test input
+            h4 1536*2560
+            img(src="photos/rgb.png",height="500px")
           section
             h3 Local Laplacian-Workload between CPU and GPU at Nexus 7
             img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png")
@@ -344,6 +352,9 @@ html
             h3 Execution of OpenCL API (Bilateral at PC 2)
             img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png")
           section
+            h3 It shows that
+            h4 The CPU usage will slow OpenCL API execution time    
+          section
             h2 Dynamic Dispatch
           section
             h3 Performance of Bilateral
@@ -363,7 +374,7 @@ html
           section 
             h1 Conclusion
           section
-            h3 We create A synergistic framework base on Halide can
+            h3 We create a synergistic framework base on Halide can
             ul 
               li support PC and Mobile
               li support CUDA and OpenCL
@@ -379,7 +390,7 @@ html
             h2 When processing Local Laplacian Static Dispatch improves
             ul
               li(class="fragment highlight-red") <strong>24%</strong> at Nexus 7
-              li(class="fragment highlight-red") <strong>23%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>3%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
               li(class="fragment highlight-red") <strong>11%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
           section
             h2 Dynamic Dispatch
