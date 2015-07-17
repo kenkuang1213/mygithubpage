@@ -13,6 +13,9 @@ html
     link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
     document.getElementsByTagName( 'head' )[0].appendChild( link );
 
+  mixin GiFrame(href)
+    iframe(data-src=href,height="371px",width="600",scrolling="no",marginwidth="0",marginheight="0",style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%",seamless)
+
 
   body  
     .reveal
@@ -170,6 +173,9 @@ html
             p OpenCL is an open standard of computing for heterogeneous devices developed by Khronos Group.
             img(src="photos/InspirationForOpenCL.png",height="300px")
           section
+            h3 OpenCL Execution OpenCL
+            img(src="photos/OpenCL_model.png")
+          section
             h3 Executing OpenCL Programs
             img(src="photos/ExecutingOpenCLPrograms.png")
           section
@@ -196,10 +202,12 @@ html
           section
             h1 Implementation
           section
-            h3 System Achitecture
+            h3 System Flow
             img(src="photos/Framework-System Architecture.png",height="600px",style="Background:#FFFFFF")
           section
-            img(src="photos/OpenCL\ Comparison.png")
+            h3 With CPU direct Executing 
+            +GiFrame("https://docs.google.com/spreadsheets/d/1nQuYXYLOwNJKvkIUyRyswKq8TzUq7SHqYFMz_OEX52M/pubchart?oid=426015164&amp;format=interactive;width=100")
+            //-img(src="photos/OpenCL\ Comparison.png")
           section
             h3 Memory Management 
             img(src="photos/Implement-old.png",height="500px",style="background: #D8D8D8")
@@ -298,78 +306,134 @@ html
             h3 Test input
             h4 1536*2560
             img(src="photos/gray.png",height="500px")
+          -var WorkloadAndExeTime=["https://docs.google.com/spreadsheets/d/1qi0UZwOcfLcepv3vdfmoesloAYnpuD9x0pVSa892IH4/pubchart?oid=1700196895&amp;format=image","https://docs.google.com/spreadsheets/d/1uokPP4aNalOMQSNF-xAfTkcgJIG9V3Idb-j7fSdlSB4/pubchart?oid=853281666&amp;format=interactive","https://docs.google.com/spreadsheets/d/19WCPAfdQEN0smG6AXoKdoty16PoAEA0HNzgbLIHLJUg/pubchart?oid=1017219496&amp;format=interactive","https://docs.google.com/spreadsheets/d/1fPFl1Ckvm4_b3jNg2ySybEDj77X61sk_a9AW7JDTp3w/pubchart?oid=1602293545&amp;format=interactive","https://docs.google.com/spreadsheets/d/1PZW3LUF__gFQPLHDzUFxcV3zF-PdmnIBfp2-_fX-a6I/pubchart?oid=1326132841&amp;format=interactive","https://docs.google.com/spreadsheets/d/1LrIJiIH6ImMDBx7KC4Txaa_nUVV0YaocseAOysR473M/pubchart?oid=1326132841&amp;format=interactive"]
+
+          -var WorkloadAndStatic=["https://docs.google.com/spreadsheets/d/1qi0UZwOcfLcepv3vdfmoesloAYnpuD9x0pVSa892IH4/pubchart?oid=211765211&amp;format=interactive","https://docs.google.com/spreadsheets/d/1uokPP4aNalOMQSNF-xAfTkcgJIG9V3Idb-j7fSdlSB4/pubchart?oid=1829513929&amp;format=interactive","https://docs.google.com/spreadsheets/d/19WCPAfdQEN0smG6AXoKdoty16PoAEA0HNzgbLIHLJUg/pubchart?oid=783616746&amp;format=interactive","https://docs.google.com/spreadsheets/d/1fPFl1Ckvm4_b3jNg2ySybEDj77X61sk_a9AW7JDTp3w/pubchart?oid=1264066617&amp;format=interactive","https://docs.google.com/spreadsheets/d/1PZW3LUF__gFQPLHDzUFxcV3zF-PdmnIBfp2-_fX-a6I/pubchart?oid=1199541961&amp;format=interactive","https://docs.google.com/spreadsheets/d/1LrIJiIH6ImMDBx7KC4Txaa_nUVV0YaocseAOysR473M/pubchart?oid=1199541961&amp;format=interactive"]
           section
             h3 Bilateral-Workload between CPU and GPU at Nexus 7
-            img(src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png")
+            +GiFrame(WorkloadAndExeTime[0])
+            //img(src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png")
           section
             h3 Bilateral-Workload between CPU and GPU at PC 1
-            img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC1).png")
+            +GiFrame(WorkloadAndExeTime[2])
+            //img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC1).png")
           section
-            h3 Bilateral-Workload between CPU and GPU at PC 2
-            img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png")
+            h3 Bilateral-Workload between CPU and GPU at PC 2 
+            +GiFrame(WorkloadAndExeTime[4])
+            //img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png")
           section
             h3 Test input
             h4 1536*2560
             img(src="photos/rgb.png",height="500px")
           section
             h3 Local Laplacian-Workload between CPU and GPU at Nexus 7
-            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png")
+            +GiFrame(WorkloadAndExeTime[1])
+            //img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png")
           section
             h3 Local Laplacian-Workload between CPU and GPU at PC 1
-            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC1).png")
+            +GiFrame(WorkloadAndExeTime[3])
+          //-img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC1).png")
           section
             h3 Local Laplacian-Workload between CPU and GPU at PC 2
-            img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC2).png")
+            +GiFrame(WorkloadAndExeTime[5])
+            //-img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC2).png")
           section
             h2 The workload and static dispatch
           section
             h3 Bilateral-Workload and static dispatch at Nexus 7
-            img(src="photos/Result-workload and static dispatch(Bilateral@Nexus7).png")
+            +GiFrame(WorkloadAndStatic[0])
+            //img(src="photos/Result-workload and static dispatch(Bilateral@Nexus7).png")
           section
             h3 Bilateral-Workload and static dispatch at PC 1 
-            img(src="photos/Result-workload and static dispatch(Bilateral@PC1).png")
+            +GiFrame(WorkloadAndStatic[2])
+            //img(src="photos/Result-workload and static dispatch(Bilateral@PC1).png")
           section
             h3 Bilateral-Workload and static dispatch at PC 2 
-            img(src="photos/Result-workload and static dispatch(Bilateral@PC2).png")
+            +GiFrame(WorkloadAndStatic[4])
+            //img(src="photos/Result-workload and static dispatch(Bilateral@PC2).png")
           section
             h3 Local Laplacian-Workload and static dispatch at Nexus 7
-            img(src="photos/Result-workload and static dispatch(LocalLaplacian@Nexus7).png")
+            +GiFrame(WorkloadAndStatic[1])
+            //img(src="photos/Result-workload and static dispatch(LocalLaplacian@Nexus7).png")
           section
             h3 Local Laplacian-Workload and static dispatch at PC 1
-            img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC1).png")
+            +GiFrame(WorkloadAndStatic[3])
+            //img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC1).png")
           section
             h3 Local Laplacian-Workload and static dispatch at PC 2
-            img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png")
+            +GiFrame(WorkloadAndStatic[5])
+            //img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png")
           section 
             h3 It turns out that
             p(class="fragment") Static Dispatch will be slower than predict execution
           section
             h2 OpenCL Profile information
+          -var ExeOpenCL=["https://docs.google.com/spreadsheets/d/1-tHbLoOwH3TG04bmbMH5VolY_1h1C-RE5zZLWgBX__w/pubchart?oid=93604097&amp;format=interactive","https://docs.google.com/spreadsheets/d/1yMOEkuZy2TYKQPw3Tcw7WnQdD8nM3e0ZUbD-Aq7p86c/pubchart?oid=22427250&amp;format=interactive"]
           section
             h3 Execution of OpenCL API (Bilateral at PC 1)
-            img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC1).png")
+            +GiFrame(ExeOpenCL[0])
+            //img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC1).png",height="371",width="600",frameborder="0",scrolling="no",seamless,marginwidth="0",marginheight="0",style="border:3px solid #666; margin-bottom:5px; max-width: 100%;",allowfullscreen)
           section
             h3 Execution of OpenCL API (Bilateral at PC 2)
-            img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png")
+            +GiFrame(ExeOpenCL[1])
+            //img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png")
           section
             h3 It shows that
             h4 The CPU usage will slow OpenCL API execution time    
           section
             h2 Dynamic Dispatch
+          -var performanceCompare=["https://docs.google.com/spreadsheets/d/1IX1VaEaljll34XIG54ijxzmnOOf3N5gIKb4w9DoxBj0/pubchart?oid=1457635361&format=interactive","https://docs.google.com/spreadsheets/d/1RP6n1bLOpL1dcWiGQYnjPXt4RlgF70Uw6eqrBr6vpdY/pubchart?oid=1457635361&format=interactive"]
           section
             h3 Performance of Bilateral
-            img(src="photos/Performance of Bilateral.png")
+            +GiFrame(performanceCompare[0])
+            // img(src="photos/Performance of Bilateral.png")
           section
             h3 Performance of Local Laplacian
-            img(src="photos/Performance of Local Laplacian.png")
+            +GiFrame(performanceCompare[1])
+            //img(src="photos/Performance of Local Laplacian.png")
           section 
             h2 CUDA V.S OpenCL
+          -var CUDAOCLCom=["https://docs.google.com/spreadsheets/d/1lA5gs1dHof0st6k9eesXFl7fRaQET8Z0bSJafg0hJkI/pubchart?oid=1892727041&amp;format=interactive","https://docs.google.com/spreadsheets/d/1tILEoTSTlTi9_-hLyQYqekGIXUqZFpvnjIamvVPlAlY/pubchart?oid=1892727041&amp;format=interactive"]
           section
             h3 Comparison between CUDA and OpenCL - Bilateral
-            img(src="photos/Comparison between CUDA and OpenCL(Bilateral).png")
+            +GiFrame(CUDAOCLCom[0])
+            //img(src="photos/Comparison between CUDA and OpenCL(Bilateral).png")
           section
             h3 Comparison between CUDA and OpenCL - Local Laplacian
-            img(src="photos/Comparison between CUDA and OpenCL(Local Laplacian).png")
+            +GiFrame(CUDAOCLCom[1])
+            //img(src="photos/Comparison between CUDA and OpenCL(Local Laplacian).png")
+          -var Static4K=["https://docs.google.com/spreadsheets/d/1XG7QT3Lv_uvArZdKGeM6PlUQpAGFxBa27wusBO7yHas/pubchart?oid=46228637&amp;format=interactive","https://docs.google.com/spreadsheets/d/1fqXVMQd8Ylp03hmhGPTlFY6x-CAXFykNfspeuzyf7uo/pubchart?oid=1199541961&amp;format=interactive"]
+          section
+            h2 The influence of different input size
+          //- section
+          //-   h3 input 4096*2160 
+          //-   img(src="photos/4k-gray.png",height="500")
+          //- section 
+          //-   h3 Bilateral at PC 1
+          //-   +GiFrame(Static4K[0])
+          //- section
+          //-   h3 Bilateral at PC 2
+          //-   +GiFrame(Static4K[1])
+          -var Static8K=["https://docs.google.com/spreadsheets/d/19DZr9k5GXhKa3MZJ9xvqiYhxO2eXqAenyDFjKmlngQ4/pubchart?oid=46228637&amp;format=interactive","https://docs.google.com/spreadsheets/d/1JiRSDNLWy6wfqsaRtzONyKQuHekHgn-sU_f0WSTBQUg/pubchart?oid=1199541961&amp;format=interactive"]
+          section
+            h3 input 8192*6960 
+            img(src="photos/8k-gray.png",height="500")
+          section 
+            h3 Bilateral at PC 1
+            +GiFrame(Static8K[0])
+          section
+            h3 Bilateral at PC 2
+            +GiFrame(Static8K[1])
+          -var Profile8K=["https://docs.google.com/spreadsheets/d/1gm9Z96RKPzyzl5ReWl9ZwXMpI0bPkF_geRCZroqY8S4/pubchart?oid=93604097&amp;format=interactive","https://docs.google.com/spreadsheets/d/1uPjOx8fvkvVoo2yhaKlZU-ySSQ6zO8aUjKStYYVXWfk/pubchart?oid=22427250&amp;format=interactive"]
+          section 
+            h3 Profiling with 8192*6960
+            img(src="photos/8k-gray.png",height="500")
+          section
+            h3 Bilateral at PC 1
+            +GiFrame(Profile8K[0])
+          section
+            h3 Bilateral at PC 2
+            +GiFrame(Profile8K[1])
         section
           section 
             h1 Conclusion
@@ -381,25 +445,25 @@ html
           section
             h2 Static Dispatch
           section 
-            h2 When processing Bilateral Static Dispatch improves
+            h2 When processing Bilateral Static Dispatch speedup
             ul
-              li(class="fragment highlight-red") <strong>21%</strong> at Nexus 7
-              li(class="fragment highlight-red") <strong>66%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
-              li(class="fragment highlight-red") <strong>16%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
+              li(class="fragment highlight-red") <strong>1.21x</strong> at Nexus 7
+              li(class="fragment highlight-red") <strong>1.55x</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>1.16%x/strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
           section
-            h2 When processing Local Laplacian Static Dispatch improves
+            h2 When processing Local Laplacian Static Dispatch speedup
             ul
-              li(class="fragment highlight-red") <strong>24%</strong> at Nexus 7
-              li(class="fragment highlight-red") <strong>3%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
-              li(class="fragment highlight-red") <strong>11%</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
+              li(class="fragment highlight-red") <strong>1.24x</strong> at Nexus 7
+              li(class="fragment highlight-red") <strong>1.03x</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>1.11x</strong> at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
           section
             h2 Dynamic Dispatch
           section
-            h2 When processing Bilateral Dynamic Dispatch improves
+            h2 When processing Bilateral Dynamic Dispatch speedup
             ul
-              li(class="fragment highlight-red") <strong>8%</strong>&nbsp&nbsp at Nexus 7
-              li(class="fragment highlight-red") <strong>57%</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
-              li(class="fragment highlight-red") <strong>6%</strong>&nbsp&nbsp at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
+              li(class="fragment highlight-red") <strong>1.08x</strong>&nbsp&nbsp at Nexus 7
+              li(class="fragment highlight-red") <strong>1.55x</strong> at PC 1 &nbsp&nbsp&nbsp&nbsp&nbsp
+              li(class="fragment highlight-red") <strong>1.06x</strong>&nbsp&nbsp at PC 2 &nbsp&nbsp&nbsp&nbsp&nbsp 
 
 
 
