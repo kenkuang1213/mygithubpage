@@ -2,7 +2,7 @@
 <html> 
   <head> 
     <meta charset="UTF-8"/>
-    <title>A Synergistic framework Base on Halide</title>
+    <title>A Synergistic Framework Base on Halide</title>
     <link rel="stylesheet" href="css/reveal.css"/>
     <link rel="stylesheet" href="css/theme/night.css" id="theme"/>
     <link rel="stylesheet" href="lib/css/zenburn.css"/>
@@ -179,7 +179,7 @@ blur_y.compile_to_file("halide_blur", input);
             <h2>Halide Pipelines</h2><img src="photos/HalidePipeline.png" height="500px"/>
           </section>
           <section>
-            <h2>Halide Consumer/Producer Relastions</h2><img src="photos/HalideConsumerRelations.png" height="500px"/>
+            <h2>Halide Consumer/Producer Relations</h2><img src="photos/HalideConsumerRelations.png" height="500px"/>
           </section>
           <section> 
             <h2>Halide CodeGen Flow</h2><img src="photos/HalideCodeGenFlow.png" height="500px" style="Background:#FFFFFF"/>
@@ -229,8 +229,8 @@ blur_y.compile_to_file("halide_blur", input);
             <h3>System Flow</h3><img src="photos/Framework-System Architecture.png" height="600px" style="Background:#FFFFFF"/>
           </section>
           <section>
-            <h3>With CPU direct Executing </h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1nQuYXYLOwNJKvkIUyRyswKq8TzUq7SHqYFMz_OEX52M/pubchart?oid=426015164&amp;amp;format=interactive;width=100" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
+            <h3>System Flow con'd</h3>
+            <h4>With CPU direct Executing </h4><img src="photos/OpenCL Comparison.png"/>
           </section>
           <section>
             <h3>Memory Management </h3><img src="photos/Implement-old.png" height="500px" style="background: #D8D8D8"/>
@@ -339,69 +339,47 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             <h4>1536*2560</h4><img src="photos/gray.png" height="500px"/>
           </section>
           <section>
-            <h3>Bilateral-Workload between CPU and GPU at Nexus 7</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1qi0UZwOcfLcepv3vdfmoesloAYnpuD9x0pVSa892IH4/pubchart?oid=1700196895&amp;amp;format=image" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png")-->
+            <h3>Bilateral-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@Nexus7).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload between CPU and GPU at PC 1</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/19WCPAfdQEN0smG6AXoKdoty16PoAEA0HNzgbLIHLJUg/pubchart?oid=1017219496&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC1).png")-->
+            <h3>Bilateral-Workload between CPU and GPU at PC 1</h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@PC1).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload between CPU and GPU at PC 2 </h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1PZW3LUF__gFQPLHDzUFxcV3zF-PdmnIBfp2-_fX-a6I/pubchart?oid=1326132841&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png")-->
+            <h3>Bilateral-Workload between CPU and GPU at PC 2 </h3><img src="photos/Result-Workload between CPU and GPU(Bilateral@PC2).png"/>
           </section>
           <section>
             <h3>Test input</h3>
             <h4>1536*2560</h4><img src="photos/rgb.png" height="500px"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload between CPU and GPU at Nexus 7</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1uokPP4aNalOMQSNF-xAfTkcgJIG9V3Idb-j7fSdlSB4/pubchart?oid=853281666&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png")-->
+            <h3>Local Laplacian-Workload between CPU and GPU at Nexus 7</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@Nexus7).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload between CPU and GPU at PC 1</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1fPFl1Ckvm4_b3jNg2ySybEDj77X61sk_a9AW7JDTp3w/pubchart?oid=1602293545&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
+            <h3>Local Laplacian-Workload between CPU and GPU at PC 1</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC1).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload between CPU and GPU at PC 2</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1LrIJiIH6ImMDBx7KC4Txaa_nUVV0YaocseAOysR473M/pubchart?oid=1326132841&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
+            <h3>Local Laplacian-Workload between CPU and GPU at PC 2</h3><img src="photos/Result-Workload between CPU and GPU(LocalLaplacian@PC2).png"/>
           </section>
           <section>
             <h2>The workload and static dispatch</h2>
           </section>
           <section>
-            <h3>Bilateral-Workload and static dispatch at Nexus 7</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1qi0UZwOcfLcepv3vdfmoesloAYnpuD9x0pVSa892IH4/pubchart?oid=211765211&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-workload and static dispatch(Bilateral@Nexus7).png")-->
+            <h3>Bilateral-Workload and static dispatch at Nexus 7</h3><img src="photos/Result-workload and static dispatch(Bilateral@Nexus7).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload and static dispatch at PC 1 </h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/19WCPAfdQEN0smG6AXoKdoty16PoAEA0HNzgbLIHLJUg/pubchart?oid=783616746&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-workload and static dispatch(Bilateral@PC1).png")-->
+            <h3>Bilateral-Workload and static dispatch at PC 1 </h3><img src="photos/Result-workload and static dispatch(Bilateral@PC1).png"/>
           </section>
           <section>
-            <h3>Bilateral-Workload and static dispatch at PC 2 </h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1PZW3LUF__gFQPLHDzUFxcV3zF-PdmnIBfp2-_fX-a6I/pubchart?oid=1199541961&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-workload and static dispatch(Bilateral@PC2).png")-->
+            <h3>Bilateral-Workload and static dispatch at PC 2 </h3><img src="photos/Result-workload and static dispatch(Bilateral@PC2).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload and static dispatch at Nexus 7</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1uokPP4aNalOMQSNF-xAfTkcgJIG9V3Idb-j7fSdlSB4/pubchart?oid=1829513929&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-workload and static dispatch(LocalLaplacian@Nexus7).png")-->
+            <h3>Local Laplacian-Workload and static dispatch at Nexus 7</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian@Nexus7).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload and static dispatch at PC 1</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1fPFl1Ckvm4_b3jNg2ySybEDj77X61sk_a9AW7JDTp3w/pubchart?oid=1264066617&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC1).png")-->
+            <h3>Local Laplacian-Workload and static dispatch at PC 1</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian@PC1).png"/>
           </section>
           <section>
-            <h3>Local Laplacian-Workload and static dispatch at PC 2</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1LrIJiIH6ImMDBx7KC4Txaa_nUVV0YaocseAOysR473M/pubchart?oid=1199541961&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png")-->
+            <h3>Local Laplacian-Workload and static dispatch at PC 2</h3><img src="photos/Result-workload and static dispatch(LocalLaplacian@PC2).png"/>
           </section>
           <section> 
             <h3>It turns out that</h3>
@@ -411,14 +389,10 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             <h2>OpenCL Profile information</h2>
           </section>
           <section>
-            <h3>Execution of OpenCL API (Bilateral at PC 1)</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1-tHbLoOwH3TG04bmbMH5VolY_1h1C-RE5zZLWgBX__w/pubchart?oid=93604097&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC1).png",height="371",width="600",frameborder="0",scrolling="no",seamless,marginwidth="0",marginheight="0",style="border:3px solid #666; margin-bottom:5px; max-width: 100%;",allowfullscreen)-->
+            <h3>Execution of OpenCL API (Bilateral at PC 1)</h3><img src="photos/ExecutionTimeOfAPI(Bilateal @ PC1).png" height="371" width="600" frameborder="0" scrolling="no" seamless="seamless" marginwidth="0" marginheight="0" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen="allowfullscreen"/>
           </section>
           <section>
-            <h3>Execution of OpenCL API (Bilateral at PC 2)</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1yMOEkuZy2TYKQPw3Tcw7WnQdD8nM3e0ZUbD-Aq7p86c/pubchart?oid=22427250&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png")-->
+            <h3>Execution of OpenCL API (Bilateral at PC 2)</h3><img src="photos/ExecutionTimeOfAPI(Bilateal @ PC2).png"/>
           </section>
           <section>
             <h3>It shows that</h3>
@@ -428,52 +402,19 @@ for(int j= kernelStartY; j<= kernelEndY; j++)
             <h2>Dynamic Dispatch</h2>
           </section>
           <section>
-            <h3>Performance of Bilateral</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1IX1VaEaljll34XIG54ijxzmnOOf3N5gIKb4w9DoxBj0/pubchart?oid=1457635361&amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!-- img(src="photos/Performance of Bilateral.png")-->
+            <h3>Performance of Bilateral</h3><img src="photos/Performance of Bilateral.png"/>
           </section>
           <section>
-            <h3>Performance of Local Laplacian</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1RP6n1bLOpL1dcWiGQYnjPXt4RlgF70Uw6eqrBr6vpdY/pubchart?oid=1457635361&amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Performance of Local Laplacian.png")-->
+            <h3>Performance of Local Laplacian</h3><img src="photos/Performance of Local Laplacian.png"/>
           </section>
           <section> 
             <h2>CUDA V.S OpenCL</h2>
           </section>
           <section>
-            <h3>Comparison between CUDA and OpenCL - Bilateral</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1lA5gs1dHof0st6k9eesXFl7fRaQET8Z0bSJafg0hJkI/pubchart?oid=1892727041&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Comparison between CUDA and OpenCL(Bilateral).png")-->
+            <h3>Comparison between CUDA and OpenCL - Bilateral</h3><img src="photos/Comparison between CUDA and OpenCL(Bilateral).png"/>
           </section>
           <section>
-            <h3>Comparison between CUDA and OpenCL - Local Laplacian</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1tILEoTSTlTi9_-hLyQYqekGIXUqZFpvnjIamvVPlAlY/pubchart?oid=1892727041&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-            <!--img(src="photos/Comparison between CUDA and OpenCL(Local Laplacian).png")-->
-          </section>
-          <section>
-            <h2>The influence of different input size</h2>
-          </section>
-          <section>
-            <h3>input 8192*6960 </h3><img src="photos/8k-gray.png" height="500"/>
-          </section>
-          <section> 
-            <h3>Bilateral at PC 1</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/19DZr9k5GXhKa3MZJ9xvqiYhxO2eXqAenyDFjKmlngQ4/pubchart?oid=46228637&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-          </section>
-          <section>
-            <h3>Bilateral at PC 2</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1JiRSDNLWy6wfqsaRtzONyKQuHekHgn-sU_f0WSTBQUg/pubchart?oid=1199541961&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-          </section>
-          <section> 
-            <h3>Profiling with 8192*6960</h3><img src="photos/8k-gray.png" height="500"/>
-          </section>
-          <section>
-            <h3>Bilateral at PC 1</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1gm9Z96RKPzyzl5ReWl9ZwXMpI0bPkF_geRCZroqY8S4/pubchart?oid=93604097&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
-          </section>
-          <section>
-            <h3>Bilateral at PC 2</h3>
-              <iframe data-src="https://docs.google.com/spreadsheets/d/1uPjOx8fvkvVoo2yhaKlZU-ySSQ6zO8aUjKStYYVXWfk/pubchart?oid=22427250&amp;amp;format=interactive" height="371px" width="600" scrolling="no" marginwidth="0" marginheight="0" style="border:0px ; margin-bottom:5px;max-width=100%;max-height=100%" seamless="seamless"></iframe>
+            <h3>Comparison between CUDA and OpenCL - Local Laplacian</h3><img src="photos/Comparison between CUDA and OpenCL(Local Laplacian).png"/>
           </section>
         </section>
         <section>
