@@ -204,7 +204,7 @@ blur_y.compile_to_file("halide_blur", input);
               <li><strong>device_malloc </strong> : clCreateBuffer</li>
               <li><strong>copy_to_device</strong>  : clEnqueueWriteBufferRect</li>
               <li><strong>run </strong> : clCreateKernel, clSetKernelArg, clEnqueueNDRangeKernel, clReleaseKernel and clFinish  </li>
-              <li><strong>copy_to_to_host</strong>  : clEnqueueReadBufferRect</li>
+              <li><strong>copy_to_host</strong>  : clEnqueueReadBufferRect</li>
               <li><strong>device_free </strong> : clReleaseMemObject.</li>
             </ol>
           </section>
